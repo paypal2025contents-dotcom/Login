@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create account</title>
+<style>
+  :root{
+    --navy-900:#0b1e3d;
+    --navy-800:#12294f;
+    --blue-600:#1d5fd6;
+    --blue-500:#2f74f0;
+    --blue-100:#dce7fb;
+    --ink:#0b1e3d;
+    --muted:#5b6b85;
+    --card:#ffffff;
+    --border:#d7e0f2;
+    --danger:#c6394b;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(47,116,240,0.35), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(29,95,214,0.30), transparent 50%),
+      var(--navy-900);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .panel{
+    width:100%;
+    max-width:380px;
+    background:var(--card);
+    border-radius:14px;
+    box-shadow:0 20px 50px rgba(11,30,61,0.35);
+    padding:36px 32px 32px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .brand-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg, var(--blue-500), var(--navy-800));
+    flex-shrink:0;
+  }
+  .brand-name{
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+    letter-spacing:0.2px;
+  }
+
+  h1{
+    font-size:22px;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .sub{
+    margin:0 0 26px;
+    font-size:14px;
+    color:var(--muted);
+  }
+
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .field{margin-bottom:18px;}
+  input[type="text"], input[type="password"]{
+    width:100%;
+    padding:11px 13px;
+    border:1.5px solid var(--border);
+    border-radius:9px;
+    font-size:14px;
+    color:var(--ink);
+    background:#fbfcff;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus{
+    border-color:var(--blue-500);
+    box-shadow:0 0 0 3px var(--blue-100);
+  }
+  .hint{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:6px;
+  }
+  .error{
+    font-size:12px;
+    color:var(--danger);
+    margin-top:6px;
+    display:none;
+  }
+  .field.invalid input{border-color:var(--danger);}
+  .field.invalid .error{display:block;}
+
+  button.primary{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:9px;
+    background:var(--blue-600);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:6px;
+    transition:background .15s ease, transform .05s ease;
+  }
+  button.primary:hover{background:#1a53bd;}
+  button.primary:active{transform:translateY(1px);}
+
+  .footer-note{
+    text-align:center;
+    margin-top:20px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .footer-note a{color:var(--blue-600); text-decoration:none; font-weight:600;}
+
+  /* Modal */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(11,30,61,0.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:10;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff;
+    border-radius:14px;
+    max-width:340px;
+    width:100%;
+    padding:30px 26px 26px;
+    text-align:center;
+    box-shadow:0 25px 60px rgba(11,30,61,0.45);
+  }
+  .modal-icon{
+    width:52px; height:52px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:var(--blue-100);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-icon svg{width:26px; height:26px;}
+  .modal h2{
+    margin:0 0 8px;
+    font-size:18px;
+    color:var(--ink);
+  }
+  .modal p{
+    margin:0 0 22px;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  .modal button, .modal .modal-link{
+    display:block;
+    width:100%;
+    padding:11px;
+    border:none;
+    border-radius:9px;
+    background:var(--blue-600);
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    text-align:center;
+    box-sizing:border-box;
+  }
+  .modal button:hover, .modal .modal-link:hover{background:#1a53bd;}
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <div class="brand">
+    <div class="brand-mark"></div>
+    <span class="brand-name">Vault 2K26</span>
+  </div>
+
+  <h1>Create your account</h1>
+  <p class="sub">Choose a username and password to get started.</p>
+
+  <form id="signupForm" novalidate>
+    <div class="field" id="usernameField">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" autocomplete="username" placeholder="e.g. jordan_smith">
+      <div class="error">Username must be at least 3 characters.</div>
+    </div>
+
+    <div class="field" id="passwordField">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="new-password" placeholder="At least 8 characters">
+      <div class="error">Password must be at least 8 characters.</div>
+    </div>
+
+    <button type="submit" class="primary">Create account</button>
+  </form>
+
+  <p class="footer-note">Already have an account? <a href="https://pinayvault.up.railway.app" id="loginLink">Log in</a></p>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1d5fd6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+    </div>
+    <h2>Account created</h2>
+    <p id="modalUsername">Welcome! Your account is ready to use.</p>
+    <a id="closeModal" href="https://t.me/vault2k26" class="modal-link">Activate Account</a>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const usernameField = document.getElementById('usernameField');
+  const passwordField = document.getElementById('passwordField');
+  const overlay = document.getElementById('overlay');
+  const modalUsername = document.getElementById('modalUsername');
+  const closeModal = document.getElementById('closeModal');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let valid = true;
+
+    if (usernameInput.value.trim().length < 3){
+      usernameField.classList.add('invalid');
+      valid = false;
+    } else {
+      usernameField.classList.remove('invalid');
+    }
+
+    if (passwordInput.value.length < 8){
+      passwordField.classList.add('invalid');
+      valid = false;
+    } else {
+      passwordField.classList.remove('invalid');
+    }
+
+    if (!valid) return;
+
+    // In a real app, this is where you'd call your signup API.
+    modalUsername.textContent = `Welcome, ${usernameInput.value.trim()}! Your account is ready to use.`;
+    overlay.classList.add('show');
+  });
+
+  closeModal.addEventListener('click', function(e){
+    // Remove this line once you've set a real href above — it currently
+    // stops the placeholder "#" link from jumping the page.
+    if (closeModal.getAttribute('href') === '#') e.preventDefault();
+    overlay.classList.remove('show');
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
